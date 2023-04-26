@@ -10,8 +10,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model artist{
-  artist_id String @unique @id
-  name String
-  age Int 
+model Production_owner {
+  po_id         String    @id @db.VarChar(15)
+  name          String    @db.VarChar(30)
+  date_of_birth DateTime  @db.Date
+  age           Int       @db.Int(2)
+  email_id      String    @db.VarChar(20)
+  phone_no      Int       @db.Int(10)
+  id_proof      Bytes     @db.VarBinary(5242880)
+  address       String    @db.VarChar(50)
+  password      String    @db.VarChar(20)
 }
