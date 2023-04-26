@@ -10,49 +10,72 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Production_owner {
-  po_id         String @id @unique @default(cuid())
-  name          String @db.VarChar(30)
-  date_of_birth DateTime
-  age           Int
-  email_id      String @db.VarChar(20)
-  phone_no      Int
-  id_proof      String @db.VarChar(5000)
-  address       String @db.VarChar(50)
-  password      String @db.VarChar(20)
-}
-
-model production_profile {
-  pp_id             String   @id @default(cuid())
-  tiitle            String   @db.VarChar(30)
-  category          String   @db.VarChar(30)
-  artist            artist   @relation(fields: [artist], references: [a_id])
-  artist_id         String   @db.VarChar(15)
-  p_owner_id          user     @relation(fields: [Production_owner], references: [po_id])
-  address           String   @db.VarChar(50)
-  no_of_shooting_days Int      @db.Int(3)
-  created_at        DateTime @db.Timestamp @default(now())
-  updated_at        DateTime @db.Timestamp @default(now())
-  release_date      DateTime? @db.Date
-  payment_provided  Boolean  @default(false)
-  restrictions      String?  @db.VarChar(50)
-  poster            String?  @db.Binary(5242880) // max 5 MB
-}
-
-model artist {
-  a_id              String   @id @default(cuid())
-  name              String   @db.VarChar(30)
+model Artist {
+  a_id              String @id @default(cuid())
+  name              String
   date_of_birth     DateTime
-  email_id          String   @db.VarChar(20)
-  password          String   @db.VarChar(20)
-  phone_no          Int      @db.Int(12)
-  age               Int      @db.Int(3)
-  address           String   @db.VarChar(50)
-  id_proof          String   @db.VarChar(5000000) // max 5MB
+  email_id          String
+  password          String
+  phone_no          Int
+  age               Int
+  address           String
+  id_proof          String
   expecting_payment Boolean
-  skill             String   @db.Text(50)
-  physical_details  String[] @db.Array(3)
+  skill             String
+  ap_id             String
+  physical_details  String[]
+  production_profile ProductionProfile @relation(fields: [ap_id], references: [pp_id])
 }
+
+model Login {
+  user_id          String @id @default(cuid())
+  email            String
+  password         String
+  date             DateTime
+  session_details  Int
+}
+
+model Production_owner {
+  po_id       String @id @default(cuid())
+  name        String
+  date_of_birth DateTime
+  age         Int
+  email_id    String
+  phone_no    Int
+  id_proof    String
+  address     String
+  password    String
+}
+
+model prev_projects {
+  ap_id           String @id
+  pp_id           String @default(cuid()) @unique
+  project_name    String
+  production_name String
+  link            String
+  technician_role String
+  released_date   DateTime
+  artist          Artist @relation(fields: [ap_id], references: [a_id])
+}
+
+model ProductionProfile {
+  pp_id             String @id @default(cuid())
+  title             String
+  category          String
+  artist_id         String
+  p_owner_id        String
+  address           String
+  no_of_shooting_days Int
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+  release_date      DateTime
+  payment_provided  Boolean
+  restrictions      String
+  poster            String
+  artist            Artist @relation(fields: [artist_id], references: [a_id])
+  production_owner  Production_owner @relation(fields: [p_owner_id], references: [po_id])
+}
+
 
 
 
