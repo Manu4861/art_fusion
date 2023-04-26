@@ -17,8 +17,9 @@ model Production_owner {
   age           Int       @db.Integer
   email_id      String    @db.VarChar(20)
   phone_no      Int       @db.Integer
-  id_proof      Bytes     @db.Byte
+  id_proof      Bytes     @db.Bytea
   address       String    @db.VarChar(50)
   password      String    @db.VarChar(20)
 }
+
 
