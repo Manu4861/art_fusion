@@ -10,18 +10,80 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+model Artist {
+  a_id              String              @id @default(cuid())
+  date_of_birth     DateTime
+  password          String
+  phone_no          Int
+  age               Int
+  address           String
+  physical_details  String[]
+  expected_payment  Boolean
+  skill             String
+  prev_project      prev_projects       @relation(fields: [pp_id], references: [pp_id])
+  pp_id             String
+  id_proof          Bytes
+  email             String              @unique
+  name              String
+  ProductionProfile ProductionProfile[]
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+model Login {
+  user_id         String   @id @default(cuid())
+  email           String
+  password        String
+  date            DateTime
+  session_details Int
+}
+
+model prev_projects {
+  ap_id           String   @id
+  pp_id           String   @unique @default(cuid())
+  project_name    String
+  production_name String
+  link            String
+  technician_role String
+  released_date   DateTime
+  artist          Artist[]
+}
+
+model Production_owner {
+  po_id         String              @id @default(cuid())
+  name          String
+  date_of_birth DateTime
+  age           Int
+  email_id      String
+  phone_no      Int
+  id_proof      String
+  address       String
+  password      String
+  productions   ProductionProfile[]
+}
+
+model ProductionProfile {
+  pp_id               String           @id @default(cuid())
+  title               String
+  category            String
+  artist_id           String
+  p_owner_id          String
+  address             String
+  no_of_shooting_days Int
+  created_at          DateTime         @default(now())
+  updated_at          DateTime         @updatedAt
+  release_date        DateTime
+  payment_provided    Boolean
+  restrictions        String
+  poster              String
+  artist              Artist           @relation(fields: [artist_id], references: [a_id])
+  production_owner    Production_owner @relation(fields: [p_owner_id], references: [po_id])
+}
+
+model reset_password {
+  user_id       String   @id @default(cuid())
+  name          String
+  date_of_birth DateTime
+  email_id      String
+  password      String
+  phone_no      Int
+  age           Int
 }
