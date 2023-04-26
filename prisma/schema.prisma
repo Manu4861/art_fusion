@@ -17,7 +17,7 @@ model Production_owner {
   age           Int
   email_id      String @db.VarChar(20)
   phone_no      Int
-  id_proof      String @db.VarChar(5000)
+  id_proof      String? @db.Binary(5242880)
   address       String @db.VarChar(50)
   password      String @db.VarChar(20)
 }
