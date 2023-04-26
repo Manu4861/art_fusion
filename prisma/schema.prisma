@@ -13,7 +13,6 @@ datasource db {
 model Artist {
   a_id              String              @id @default(cuid())
   date_of_birth     DateTime
-  password          String
   phone_no          Int
   age               Int
   address           String
@@ -21,23 +20,31 @@ model Artist {
   expected_payment  Boolean
   skill             String
   prev_project      prev_projects       @relation(fields: [pp_id], references: [pp_id])
-  pp_id             String
+  pp_id             String              @unique
   id_proof          Bytes
   email             String              @unique
+  password          String              @unique
   name              String
   ProductionProfile ProductionProfile[]
+  categorys         role_category       @relation(fields: [category], references: [cat_type])
+  category          String              @unique
+  session           session_details     @relation(fields: [session_details], references: [s_id])
+  session_details   Int                 @unique
 }
 
-model Login {
-  user_id         String   @id @default(cuid())
-  email           String
-  password        String
-  date            DateTime
-  session_details Int
+model role_category {
+  cat_type String  @unique
+  Artist   Artist?
+}
+
+model session_details {
+  s_id             Int               @id
+  login_date       DateTime
+  Artist           Artist?
+  Production_owner Production_owner?
 }
 
 model prev_projects {
-  ap_id           String   @id
   pp_id           String   @unique @default(cuid())
   project_name    String
   production_name String
@@ -48,22 +55,25 @@ model prev_projects {
 }
 
 model Production_owner {
-  po_id         String              @id @default(cuid())
-  name          String
-  date_of_birth DateTime
-  age           Int
-  email_id      String
-  phone_no      Int
-  id_proof      String
-  address       String
-  password      String
-  productions   ProductionProfile[]
+  po_id           String              @id @default(cuid())
+  name            String
+  date_of_birth   DateTime
+  age             Int
+  email_id        String
+  phone_no        Int
+  id_proof        String
+  address         String
+  password        String
+  session         session_details     @relation(fields: [session_details], references: [s_id])
+  session_details Int                 @unique
+  productions     ProductionProfile[]
 }
 
 model ProductionProfile {
   pp_id               String           @id @default(cuid())
   title               String
-  category            String
+  genere_cat          genere_category  @relation(fields: [genere], references: [cat_type])
+  genere              String           @unique
   artist_id           String
   p_owner_id          String
   address             String
@@ -78,12 +88,7 @@ model ProductionProfile {
   production_owner    Production_owner @relation(fields: [p_owner_id], references: [po_id])
 }
 
-model reset_password {
-  user_id       String   @id @default(cuid())
-  name          String
-  date_of_birth DateTime
-  email_id      String
-  password      String
-  phone_no      Int
-  age           Int
+model genere_category {
+  cat_type          String             @unique
+  ProductionProfile ProductionProfile?
 }
