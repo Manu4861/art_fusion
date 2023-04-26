@@ -10,49 +10,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Production_owner {
-  po_id         String @id @unique @default(cuid())
-  name          String @db.VarChar(30)
-  date_of_birth DateTime
-  age           Int
-  email_id      String @db.VarChar(20)
-  phone_no      Int
-  id_proof      String? @db.Binary(5242880)
-  address       String @db.VarChar(50)
-  password      String @db.VarChar(20)
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+  posts Post[]
 }
 
-model production_profile {
-  pp_id             String   @id @default(cuid())
-  tiitle            String   @db.VarChar(30)
-  category          String   @db.VarChar(30)
-  artist            artist   @relation(fields: [artist], references: [a_id])
-  artist_id         String   @db.VarChar(15)
-  p_owner_id        String    @relation(fields: [Production_owner], references: [po_id])
-  address           String   @db.VarChar(50)
-  no_of_shooting_days Int      @db.Int(3)
-  created_at        DateTime @db.Timestamp @default(now())
-  updated_at        DateTime @db.Timestamp @default(now())
-  release_date      DateTime? @db.Date
-  payment_provided  Boolean  @default(false)
-  restrictions      String?  @db.VarChar(50)
-  poster            String?  @db.Binary(5242880) // max 5 MB
+model Post {
+  id        Int     @id @default(autoincrement())
+  title     String
+  content   String?
+  published Boolean @default(false)
+  author    User    @relation(fields: [authorId], references: [id])
+  authorId  Int
 }
-
-model artist {
-  a_id              String   @id @default(cuid())
-  name              String   @db.VarChar(30)
-  date_of_birth     DateTime
-  email_id          String   @db.VarChar(20)
-  password          String   @db.VarChar(20)
-  phone_no          Int      @db.Int(12)
-  age               Int      @db.Int(3)
-  address           String   @db.VarChar(50)
-  id_proof          String   @db.VarChar(5000000) // max 5MB
-  expecting_payment Boolean
-  skill             String   @db.Text(50)
-  physical_details  String[] @db.Array(3)
-}
-
-
-
