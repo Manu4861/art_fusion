@@ -14,10 +14,11 @@ model Production_owner {
   po_id         String    @id @db.VarChar(15)
   name          String    @db.VarChar(30)
   date_of_birth DateTime  @db.Date
-  age           Int       @db.Int(2)
+  age           Int       @db.Integer
   email_id      String    @db.VarChar(20)
-  phone_no      Int       @db.Int(10)
-  id_proof      Bytes     @db.VarBinary(5242880)
+  phone_no      Int       @db.Integer
+  id_proof      Bytes     @db.Bytea
   address       String    @db.VarChar(50)
   password      String    @db.VarChar(20)
 }
+
