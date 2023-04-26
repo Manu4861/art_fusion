@@ -11,14 +11,15 @@ datasource db {
 }
 
 model Production_owner {
-  po_id         String    @id @db.VarChar(15)
-  name          String    @db.VarChar(30)
-  date_of_birth DateTime  @db.Date
-  age           Int       @db.Integer
-  email_id      String    @db.VarChar(20)
-  phone_no      Int       @db.Integer
-  id_proof      Bytes     @db.Bytea
-  address       String    @db.VarChar(50)
-  password      String    @db.VarChar(20)
+  po_id         String @id @unique @default(cuid())
+  name          String @db.VarChar(30)
+  date_of_birth DateTime
+  age           Int
+  email_id      String @db.VarChar(20)
+  phone_no      Int
+  id_proof      String @db.VarChar(5000)
+  address       String @db.VarChar(50)
+  password      String @db.VarChar(20)
 }
+
 
