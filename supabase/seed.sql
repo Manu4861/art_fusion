@@ -2,7 +2,7 @@ import { PrismaClient, category } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-// Define the function to insert data into the category table
+
 async function seedCategories(): Promise<category[]> {
   const categories = await prisma.category.createMany({
     data: [
@@ -16,7 +16,6 @@ async function seedCategories(): Promise<category[]> {
   return categories;
 }
 
-// Call the function to insert data into the category table
 seedCategories()
   .then((categories) => {
     console.log(categories); // Logs the inserted categories to the console
