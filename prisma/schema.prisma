@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -6,6 +9,8 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+//Artist module
 
 model Artist {
   a_id              String              @id @default(cuid())
@@ -18,7 +23,7 @@ model Artist {
   expected_payment  Boolean
   skill             String
   pp_id             String              @unique
-  id_proof          Bytes
+  id_proof          String
   email             String              @unique
   name              String
   category          String              @unique
@@ -27,6 +32,16 @@ model Artist {
   prev_project      prev_projects       @relation(fields: [pp_id], references: [pp_id])
   session           session_details     @relation(fields: [session_details], references: [s_id])
   ProductionProfile ProductionProfile[]
+}
+
+model prev_projects {
+  pp_id           String   @unique @default(cuid())
+  project_name    String
+  production_name String
+  link            String
+  technician_role String
+  released_date   DateTime
+  artist          Artist?
 }
 
 model role_category {
@@ -39,16 +54,6 @@ model session_details {
   login_date       DateTime
   Artist           Artist?
   Production_owner Production_owner?
-}
-
-model prev_projects {
-  pp_id           String   @unique @default(cuid())
-  project_name    String
-  production_name String
-  link            String
-  technician_role String
-  released_date   DateTime
-  artist          Artist?
 }
 
 model Production_owner {
@@ -88,6 +93,6 @@ model ProductionProfile {
 }
 
 model genere_category {
-  genere_type          String             @unique @id
+  genere_type       String             @id @unique
   ProductionProfile ProductionProfile?
 }
