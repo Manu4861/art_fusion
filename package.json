@@ -1,5 +1,5 @@
 {
-  "name": "my-prisma-project",
+  "name": "art_fusion",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,8 +10,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^18.16.1",
     "prisma": "^4.13.0",
+    "ts": "^0.2.2",
     "ts-node": "^10.9.1"
   },
   "dependencies": {

@@ -2,7 +2,7 @@ import { Prisma, PrismaClient } from "@prisma/client";
 
 const client = new PrismaClient();
 
-const getArtist = (): Prisma.ArtistCreateInput[] => [
+const getartist = (): Prisma.ArtistCreateInput[] => [
   {
     date_of_birth: '1995-07-21',
     password: 'password123',
@@ -238,7 +238,7 @@ const getArtist = (): Prisma.ArtistCreateInput[] => [
 ]
 
 const Main = () => {
-  return Promise.all(getArtist().map((userInput) => client.artist.create({
+  return Promise.all(getartist().map((userInput) => client.artist.create({
     data: userInput
   })))
 }
