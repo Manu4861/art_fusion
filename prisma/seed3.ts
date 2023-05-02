@@ -1,9 +1,8 @@
-<<<<<<< HEAD
 import { Prisma, PrismaClient } from "@prisma/client";
 
 const client = new PrismaClient();
 
-const getartist = (): Prisma.ArtistCreateInput[] => [
+const getArtist = (): Prisma.ArtistCreateInput[] => [
   {
     date_of_birth: '1995-07-21',
     password: 'password123',
@@ -13,13 +12,13 @@ const getartist = (): Prisma.ArtistCreateInput[] => [
     physical_details: ['5\'9"', '160 lbs', 'brown hair'],
     expected_payment: true,
     skill: 'painting',
-    a_id: "",
-
+    a_id:"",
+    
     id_proof: "hbjh",
     email: 'jhon@example.com',
     name: 'John Doe',
-
-
+    
+    
     categorys: {
       connect: { cat_type: 'painter' }
     },
@@ -131,10 +130,10 @@ const getartist = (): Prisma.ArtistCreateInput[] => [
     physical_details: ['5\'9"', '160 lbs', 'black hair'],
     expected_payment: true,
     skill: 'graphic designer',
-    id_proof: "",
+id_proof: "",
     email: 'rahul@example.com',
     name: 'Rahul',
-    categorys: {
+categorys: {
       connect: { cat_type: 'graphic designer' }
     },
     prev_project: {
@@ -154,10 +153,10 @@ const getartist = (): Prisma.ArtistCreateInput[] => [
     physical_details: ['5\'5"', '169 lbs', 'white hair'],
     expected_payment: true,
     skill: 'dancer',
-    id_proof: "",
+ id_proof: "",
     email: 'sunil@example.com',
     name: 'Sunil',
-    categorys: {
+ categorys: {
       connect: { cat_type: 'dancer' }
     },
     prev_project: {
@@ -177,10 +176,10 @@ const getartist = (): Prisma.ArtistCreateInput[] => [
     physical_details: ['6\'1"', '132 lbs', 'brown hair'],
     expected_payment: true,
     skill: 'editor',
-    id_proof: "",
+  id_proof: "",
     email: 'chandhu@example.com',
     name: 'Chandhu',
-    categorys: {
+  categorys: {
       connect: { cat_type: 'editor' }
     },
     prev_project: {
@@ -200,10 +199,10 @@ const getartist = (): Prisma.ArtistCreateInput[] => [
     physical_details: ['5\'7"', '160 lbs', 'white hair'],
     expected_payment: true,
     skill: 'Animator',
-    id_proof: "",
+   id_proof: "",
     email: 'minato@example.com',
     name: 'Minato ',
-    categorys: {
+   categorys: {
       connect: { cat_type: 'Animator' }
     },
     prev_project: {
@@ -238,59 +237,15 @@ const getartist = (): Prisma.ArtistCreateInput[] => [
   },
 ]
 
-const Main = () => {
-  return Promise.all(getartist().map((userInput) => client.artist.create({
+const Main = async() => {
+await Promise.all(getArtist().map(async(userInput) => await client.artist.create({
     data: userInput
   })))
 }
+
 
 Main().then(() => {
   console.log("Successfully seeded")
 }).catch((e) => {
   console.log("error")
-=======
-import {Prisma, PrismaClient} from "@prisma/client";
-
-const client = new PrismaClient();
-
-const getPrev_projects = ():Prisma.prev_projectsCreateInput[] =>[
-  {
-    project_name: 'kantara',
-    production_name: 'Hoombale films',
-    technician_role: 'camera',
-    link: 'youtube',
-    released_date: 'break',
-  },
-  {
-    project_name: 'Sir',
-    production_name: 'Hoombale films',
-    technician_role: 'camera',
-    link: 'youtube',
-    released_date: 'continued',
-  },
-]
-
-const getsession_detail = ():Prisma.session_detailsCreateInput[] =>[
-  {
-    login_date: '2022-12-02',
-    s_id: 2,
-  },
-  {
-    login_date: '2022-12-07',
-    s_id: 1,
-  },
-  
-]
-
-const main = ()=>{
-  return Promise.all(getPrev_projects().map((Prev_proj)=>client.prev_projects.create({
-    data:Prev_proj
-  })))
-}
-
-main().then(()=>{
-  console.log("success")
-}).catch((e)=>{
-  console.log(e);
->>>>>>> 4e79334 (committing all files)
 })

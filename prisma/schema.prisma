@@ -14,26 +14,27 @@ datasource db {
 
 model Artist {
   a_id              String              @id @default(cuid())
-  date_of_birth     DateTime
+  date_of_birth     String
   password          String              @unique
   phone_no          Int
   age               Int
   address           String
-  physical_details  String[]
+  physical_details  String
   expected_payment  Boolean
   skill             String
   pp_id             String              @unique
   id_proof          String
   email             String              @unique
   name              String
-  category          String              @unique
+  role              String              @unique
   session_details   Int                 @unique
-  categorys         role_category       @relation(fields: [category], references: [cat_type])
+  role_type         roles
   prev_project      prev_projects       @relation(fields: [pp_id], references: [pp_id])
   session           session_details     @relation(fields: [session_details], references: [s_id])
   ProductionProfile ProductionProfile[]
 }
 
+<<<<<<< HEAD
 model prev_projects {
   pp_id           String   @unique @default(cuid())
   project_name    String
@@ -47,19 +48,37 @@ model prev_projects {
 model role_category {
   cat_type String  @id @unique
   Artist   Artist?
+=======
+enum roles {
+  Artist
+  Production_owner
+>>>>>>> 4e79334 (committing all files)
 }
 
 model session_details {
   s_id             Int               @id
-  login_date       DateTime
+  login_date       DateTime?
   Artist           Artist?
   Production_owner Production_owner?
 }
 
+<<<<<<< HEAD
+=======
+model prev_projects {
+  pp_id           String   @id @unique @default(cuid())
+  project_name    String
+  production_name String
+  link            String
+  technician_role String
+  released_date   String
+  artist_id       Artist?
+}
+
+>>>>>>> 4e79334 (committing all files)
 model Production_owner {
   po_id           String              @id @default(cuid())
   name            String
-  date_of_birth   DateTime
+  date_of_birth   String
   age             Int
   email_id        String
   phone_no        Int
