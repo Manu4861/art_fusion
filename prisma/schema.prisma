@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,89 +7,67 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-//Artist module
-
-model Artist {
-  a_id              String              @id @default(cuid())
-  date_of_birth     DateTime
-  password          String              @unique
-  phone_no          Int
+model artists {
+  id                String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  date_of_birth     String
+  password          String               @unique
+  phone_no          String
   age               Int
   address           String
-  physical_details  String[]
+  physical_details  String
   expected_payment  Boolean
   skill             String
-  pp_id             String              @unique
+  pp_id             String               @unique @db.Uuid
   id_proof          String
-  email             String              @unique
+  email             String               @unique
   name              String
-  category          String              @unique
-  session_details   Int                 @unique
-  categorys         role_category       @relation(fields: [category], references: [cat_type])
-  prev_project      prev_projects       @relation(fields: [pp_id], references: [pp_id])
-  session           session_details     @relation(fields: [session_details], references: [s_id])
-  ProductionProfile ProductionProfile[]
+  role_type         roles
+  prev_project      prev_projects        @relation(fields: [pp_id], references: [id])
+  ProductionProfile productionProfiles[]
+}
+
+enum roles {
+  ARTIST
+  PROD_OWNER
 }
 
 model prev_projects {
-  pp_id           String   @unique @default(cuid())
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   project_name    String
   production_name String
   link            String
   technician_role String
-  released_date   DateTime
-  artist          Artist?
+  released_date   String
+  artist_id       artists?
 }
 
-model role_category {
-  cat_type String  @id @unique
-  Artist   Artist?
-}
-
-model session_details {
-  s_id             Int               @id
-  login_date       DateTime
-  Artist           Artist?
-  Production_owner Production_owner?
-}
-
-model Production_owner {
-  po_id           String              @id @default(cuid())
-  name            String
-  date_of_birth   DateTime
-  age             Int
-  email_id        String
-  phone_no        Int
-  id_proof        String
-  address         String
-  password        String
-  session_details Int                 @unique
-  productions     ProductionProfile[]
-  session         session_details     @relation(fields: [session_details], references: [s_id])
-}
-
-model ProductionProfile {
-  pp_id               String           @id @default(cuid())
+model productionProfiles {
+  id                  String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title               String
-  artist_id           String
-  p_owner_id          String
+  p_owner_id          String          @db.Uuid
   address             String
   no_of_shooting_days Int
-  created_at          DateTime         @default(now())
-  updated_at          DateTime         @updatedAt
+  created_at          DateTime        @default(dbgenerated("now()"))
+  updated_at          DateTime        @updatedAt
   release_date        DateTime
   payment_provided    Boolean
   restrictions        String
   poster              String
-  genere              String           @unique
   budget              Int
   duration            Int
-  artist              Artist           @relation(fields: [artist_id], references: [a_id])
-  genere_cat          genere_category  @relation(fields: [genere], references: [genere_type])
-  production_owner    Production_owner @relation(fields: [p_owner_id], references: [po_id])
+  artist              artists         @relation(fields: [p_owner_id], references: [id])
+  gener_on_prod       gener_on_prod[]
+}
+
+model gener_on_prod {
+  id                String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  prod_id           String             @db.Uuid
+  genere            String
+  productionProfile productionProfiles @relation(fields: [prod_id], references: [id])
+  genere_category   genere_category    @relation(fields: [genere], references: [genere_type])
 }
 
 model genere_category {
-  genere_type       String             @id @unique
-  ProductionProfile ProductionProfile?
+  genere_type   String          @id
+  gener_on_prod gener_on_prod[]
 }
