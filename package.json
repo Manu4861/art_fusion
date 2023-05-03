@@ -10,16 +10,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-<<<<<<< HEAD
-=======
-    "@faker-js/faker": "^7.6.0",
-    "@types/node": "^18.16.1",
->>>>>>> 4e79334 (committing all files)
+    "@types/node": "^18.16.3",
     "prisma": "^4.13.0",
     "ts": "^0.2.2",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
   },
   "dependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@prisma/client": "^4.13.0"
   },
   "prisma": {
